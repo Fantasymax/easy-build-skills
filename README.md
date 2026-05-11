@@ -118,7 +118,7 @@ AI auto-selects 1 of 5 shapes (from simplest "atomic skill" to most complex "com
 
 ### 1️⃣ Mode selection at startup (uses Claude's native option tabs, no typing)
 
-![Step 1 — Mode selection demo](./docs/img/demo-1-mode-selection-en.svg)
+![Step 1 — Mode selection demo](./docs/img/demo-1-mode-selection-en.png)
 
 ```
 ┌─ What do you want? ────────────────────┐
@@ -137,7 +137,7 @@ AI auto-selects 1 of 5 shapes (from simplest "atomic skill" to most complex "com
 
 ### 2️⃣ Each question = 3 strong-related + 2 creative-divergent + free-input
 
-![A2 — 3+2+1 option pattern demo](./docs/img/demo-2-option-pattern-en.svg)
+![A2 — 3+2+1 option pattern demo](./docs/img/demo-2-option-pattern-en.png)
 
 ```
 ┌─ Who should the AI be like? ──────────┐
@@ -153,7 +153,7 @@ AI auto-selects 1 of 5 shapes (from simplest "atomic skill" to most complex "com
 
 ### 3️⃣ AI reverse-engineers a proposal (you don't judge tech details)
 
-![Step 5.5 — 6-segment proposal + 5-option feedback demo](./docs/img/demo-3-feedback-loop-en.svg)
+![Step 5.5 — 6-segment proposal + 5-option feedback demo](./docs/img/demo-3-feedback-loop-en.png)
 
 ```
 🔍 Based on your answers, here's what I'm building:
@@ -173,7 +173,7 @@ What do you think?
 
 ### 4️⃣ AI auto-runs 5-step self-validation, proactively reports issues
 
-![Step 7.5 — AI self-validation report demo](./docs/img/demo-4-self-validation-en.svg)
+![Step 7.5 — AI self-validation report demo](./docs/img/demo-4-self-validation-en.png)
 
 ```
 ✅ Schema check (frontmatter / line count / required sections)
