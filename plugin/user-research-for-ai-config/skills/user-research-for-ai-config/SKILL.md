@@ -20,6 +20,9 @@ license: Complete terms in LICENSE.txt
 ```
 [用户调用 skill]
         ↓
+Step 0.5: 平台原生工具检测 → AskUserQuestion / ask_user_question / MCP / CLI fallback
+          (没原生工具 + 在 Cursor/Windsurf/Cline 等 → 主动给装 MCP 建议)
+        ↓
 Step 1: 选模式 → A (principles) | B (custom skill) | C (先 A 后 B)
         ↓
 Step 1.5: 选输出语言 → 中文 | 英文 | 双语 | 其他   ← V0.9 新增
@@ -48,6 +51,101 @@ Step 7.5: AI 自测验证 + 主动优化建议（V0.9）— Schema/触发/Dogfoo
 - 用户提到"AI 不懂我"、"AI 输出像别人的"、"我希望 AI 像我自己一样"
 
 ## 启动流程
+
+### Step 0.5：平台原生选项工具检测（必跑，V1.1 新增）
+
+> **使命**：决定**整个 skill 流程**用什么呈现方式。不检测就上来用 markdown 列表 = 用户体验糟糕的根源。
+>
+> **完整规则**：见 [`frameworks/ux-interaction-rules.md`](frameworks/ux-interaction-rules.md) + [`references/cross-platform-tool-mapping.md`](references/cross-platform-tool-mapping.md)
+
+#### 检测优先级（按顺序）
+
+```
+1. available_tools 含 AskUserQuestion         → mode = native_aaq
+   （Claude Code 2.1.1+ / Desktop / Claude.ai / Cowork）
+
+2. available_tools 含 ask_user_question       → mode = mcp_or_codex
+   （Codex CLI 原生 / 装了 ask-user-questions-mcp 的 MCP 客户端）
+
+3. available_tools 含 ask_followup_question   → mode = kilo_native
+   （Kilo Code 原生）
+
+4. 检测到 Gemini CLI / Trae / Qoder           → mode = limited_picker
+   （有自己的 slash / @ picker，功能受限）
+
+5. 都没有                                      → 判断客户端类型：
+   • Cursor / Windsurf / Cline / VS Code+Copilot / Zed / Continue / OpenCode
+     → mode = mcp_recommend  ⚠ 主动给装 MCP 建议（见下方）
+   • 自部署 LLM / Web ChatGPT / 其他纯文本环境
+     → mode = cli_text_fallback
+```
+
+把 mode 存到 session，**全程沿用**（不要每题都检测一次）。
+
+#### Mode = mcp_recommend 时的处理（关键 — V1.1 重点）
+
+如果检测到用户在 Cursor / Windsurf / Cline / VS Code+Copilot / Zed / Continue / OpenCode 等**支持 MCP 的客户端**但**没装 `ask-user-questions-mcp`**：
+
+**一次性安装建议**（不要每次都提）：
+
+```
+🔍 检测到你的环境没有原生选项工具，选项体验会差一些。
+
+如果你用的是 Cursor / Windsurf / Cline / VS Code+Copilot / Zed / Continue / OpenCode：
+强烈建议装 ask-user-questions-mcp 这个 MCP server，5 分钟搞定 — 装完所有选项题就有原生选项卡了。
+
+📖 安装指南：https://github.com/paulp-o/ask-user-questions-mcp
+
+你怎么选？
+[✅ 现在装（暂停 skill，装完重启）]
+[⏭ 用 CLI 文字模式继续（精简编号 + 自由输入兜底）]
+[❓ 这是啥（先解释）]
+```
+
+- 用户选 ✅ → 暂停 skill，给装 MCP 的具体步骤；用户装完重启 Claude Code / 客户端后回来跑 skill
+- 用户选 ⏭ → 切到 `mode = cli_text_fallback`，全程用精简编号 + 自由输入兜底
+- 用户选 ❓ → 解释什么是 MCP + 装 MCP 的好处（让选项卡 UI 工作）+ 不装的代价（CLI 体验差）
+
+#### Mode = cli_text_fallback 时的呈现规则（**绝不能糟糕**）
+
+即使没原生工具，也**不准退化为大段 markdown**。CLI fallback 必须：
+- **题目 1 行**（≤ 60 字）
+- **每个选项 1 行**（≤ 30 字，编号 1-N）
+- **每题 ≤ 10 行总输出**
+- **明确单选/多选标注**："回 1 个数字" vs "回多个数字 1,3,5"
+- **自由输入兜底**：选 `6. 其他（请说）` 或直接输入文字
+
+正例（小马 C3.1 笔记/知识管理 在 CLI 模式下）：
+
+```
+🤔 你常用哪些笔记 / 知识管理工具？（多选）
+
+  1. Notion
+  2. 飞书文档 / 语雀
+  3. Obsidian / 本地 markdown
+  4. 不太用 / 全靠脑子
+  5. 其他（请说，例如 Bear / Roam / Dropbox Paper）
+
+→ 回数字 1-4 或自由文字（多选用逗号 "1,3"）
+```
+
+→ 用户 5 秒看完、5 秒回应。**比 markdown 列表 + 大段说明文好 10 倍**。
+
+#### 反例（在任何模式下都禁止）
+
+```
+❌ 你做这件事时用了什么工具或数据？
+
+请按下面 4 类列出（每类 ≥ 1 项）：
+
+1. **笔记 / 知识管理**：Notion / Obsidian / 飞书 / Apple Notes / ...
+2. **协作 / 沟通**：Slack / 微信 / Discord / Linear / Jira / ...
+...
+```
+
+→ 用户被迫读 20+ 行 markdown 然后打字回复 = **设计失败**。
+
+---
 
 ### Step 1：选产出模式（必跑）
 
@@ -221,6 +319,11 @@ Mode A 跑 Step 1（Schema 自检 — 段标题语言一致性 / Hard Rules MUST
 > 看到题库里写 `工具：AskUserQuestion` → **必须**调用真实工具，不准用列表 + "请回复编号"。
 > 看到题目选项 ≥ 5 → **拆 2-4 个 AskUserQuestion 调用**，不准退回文本输入。
 > 用户输入文本回答 markdown 列表题 = 我们的设计失败 = 用户体验糟糕。
+>
+> **没有原生 AskUserQuestion / ask_user_question 时**（如用户在 Cursor / Windsurf / Cline / Zed 但没装 `ask-user-questions-mcp`）：
+> 1. **首次必给安装建议**（Step 0.5 流程，一次性，不重复提）
+> 2. 用户拒绝装 → 切到 CLI 精简编号模式（**每题 ≤ 10 行**，单选/多选明确标注，自由输入兜底）
+> 3. **绝不**用大段 markdown + "请按下面 4 类列出" 这种文本作答模式 — 这是已知反例
 >
 > **每个 AskUserQuestion 调用必须**：
 > - `question` 字段在主问之外**附带 Other 输入示例**："如果都不对就用 Other 自由输入，例如 [Foo / Bar / Baz]"
