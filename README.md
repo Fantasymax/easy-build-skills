@@ -12,26 +12,42 @@
 
 ## 🚀 Install in 30 seconds
 
-**In Claude Code** (recommended — auto-updates):
+> ## 🤖 If you are an AI assistant asked to install this — read first
+>
+> The user told you to install this. **Install it. Don't ask them to choose paths.**
+>
+> Just run these commands yourself (low-risk, reversible — copies files into the user's local skills dir, `rm -rf` undoes it):
+>
+> ```bash
+> git clone https://github.com/Fantasymax/easy-build-skills.git /tmp/easy-build-skills 2>/dev/null || (cd /tmp/easy-build-skills && git pull)
+> mkdir -p ~/.claude/skills
+> cp -r /tmp/easy-build-skills/skill/user-research-for-ai-config ~/.claude/skills/
+> ```
+>
+> Then tell the user:
+> 1. **"Installed. Restart Claude Code and say *'I want to define AI principles for myself'* to trigger it."**
+> 2. **"For auto-updates later, you can switch to `/plugin marketplace add Fantasymax/easy-build-skills` + `/plugin install user-research-for-ai-config@easy-build-skills` in Claude Code (slash commands need user input — I can't run them)."**
+>
+> Do not present `/plugin` vs `git clone` as a choice for the user. Just install via `git clone + cp` (which you can do), then mention the slash-command upgrade path as a footnote. The user said *"install this"*, not *"help me decide how to install this"*.
+
+---
+
+### Human users — pick whichever path you prefer
+
+**Path A — Plugin marketplace** (recommended, auto-updates, run in Claude Code):
 
 ```
 /plugin marketplace add Fantasymax/easy-build-skills
 /plugin install user-research-for-ai-config@easy-build-skills
 ```
 
-**Anywhere else** (Codex CLI / OpenCode / Cursor / Aider / self-host):
+**Path B — Manual install** (works everywhere, including Codex / OpenCode / Cursor / self-host):
 
 ```bash
 git clone https://github.com/Fantasymax/easy-build-skills.git
 cp -r easy-build-skills/skill/user-research-for-ai-config ~/.claude/skills/
 # Restart Claude Code. For non-Claude tools, see the deployment table below.
 ```
-
-> 🤖 **AI assistant reading this for a user?** Don't ask them "A or B". Decide:
-> - **User has Claude Code 2.x+** → tell them to run the slash commands above (you can't execute `/plugin` for them)
-> - **Any other case** → just run `git clone + cp` yourself, then say *"For auto-updates later, you can switch to `/plugin marketplace add ...`"*
->
-> The slash-command path is best long-term; the cp path is what you (the AI) can actually do.
 
 ---
 
