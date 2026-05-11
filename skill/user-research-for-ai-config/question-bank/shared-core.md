@@ -109,18 +109,80 @@
 
 ## C3：工具栈 — 你做这些事时用什么工具/数据/平台？
 
-### 主问（文本输入 — 工具种类多，AskUserQuestion 4 选项不够）
+### 主问（拆成 4 个 AskUserQuestion 调用，每题多选 + Other 兜底）
 
-> ⚠ **设计选择**（V0.7）：C3 工具栈通常涉及 ≥ 5-10 个工具，超 AskUserQuestion 4 选项硬限制。改用文本输入 + 引导分类。
+> ⚠ **V1.1 修正**：V0.7 当时用文本输入是错的 — 违反了我们自己的"永远给选项 + 自定义兜底"原则。改为 4 个独立 AskUserQuestion 调用（每类一题，4 个最常见工具 + Other 自由输入兜底，自动加常见替代品提示）。AI 在跑这一题时**必须**：
+> 1. 调用 4 次 AskUserQuestion（每类一次），不要用 markdown 列表
+> 2. 在 question 字段提示"如果都不对用 Other 自由输入，例如 [给 2-3 个示例]"
+> 3. multiSelect: true 允许多选
 
-**主问**：你做这件事时用了什么工具或数据？
+#### C3.1：笔记 / 知识管理（AskUserQuestion 多选）
 
-请按下面 4 类列出（每类 ≥ 1 项）：
+**metadata**：
+- `工具`：AskUserQuestion
+- `multiSelect`：true
+- `header`："笔记/知识"
+- `question`："你常用哪些笔记 / 知识管理工具？（多选；都不对就用 Other 自由输入，例如 Bear / Roam / Dropbox Paper）"
+- `options`（4 个 + Other）：
+  1. **label**：Notion
+     **description**：海外用户主流
+  2. **label**：飞书文档 / 语雀
+     **description**：国内团队主流
+  3. **label**：Obsidian / 本地 markdown
+     **description**：本地优先 / 知识图谱
+  4. **label**：不太用 / 全靠脑子
+     **description**：跳过这类
 
-1. **笔记 / 知识管理**：Notion / Obsidian / 飞书 / Apple Notes / ...
-2. **协作 / 沟通**：Slack / 微信 / Discord / Linear / Jira / ...
-3. **创作 / 开发**：Word / Google Docs / Figma / 剪映 / Cursor / VS Code / ...
-4. **AI / 数据 / 发布**：Claude Code / ChatGPT / Excel / 飞书表格 / 公众号后台 / 网银 / ...
+#### C3.2：创作 / 开发工具（AskUserQuestion 多选）
+
+**metadata**：
+- `工具`：AskUserQuestion
+- `multiSelect`：true
+- `header`："创作/开发"
+- `question`："你常用哪些创作 / 开发工具？（多选；都不对就 Other，例如 Excalidraw / 剪映 / Premiere）"
+- `options`（4 个 + Other）：
+  1. **label**：Word / Google Docs / 飞书文档
+     **description**：长文写作
+  2. **label**：Figma / Sketch / draw.io
+     **description**：视觉设计 / 图表
+  3. **label**：Cursor / VS Code / Claude Code
+     **description**：代码 / 工程
+  4. **label**：Excel / 飞书表格 / Numbers
+     **description**：表格 / 数据处理
+
+#### C3.3：AI 工具（AskUserQuestion 多选）
+
+**metadata**：
+- `工具`：AskUserQuestion
+- `multiSelect`：true
+- `header`："AI 工具"
+- `question`："你常用哪些 AI 工具？（多选；都不对就 Other，例如 Kimi / 豆包 / Perplexity / 自部署 LLM）"
+- `options`（4 个 + Other）：
+  1. **label**：Claude Code / Desktop / Claude.ai
+     **description**：Anthropic 全家桶
+  2. **label**：ChatGPT / Codex
+     **description**：OpenAI 系
+  3. **label**：Gemini / Copilot
+     **description**：Google / Microsoft
+  4. **label**：Cursor / Cline / Aider 等编程 AI
+     **description**：AI 编程 IDE
+
+#### C3.4：协作 / 沟通 / 发布（AskUserQuestion 多选）
+
+**metadata**：
+- `工具`：AskUserQuestion
+- `multiSelect`：true
+- `header`："协作/发布"
+- `question`："你常用哪些协作 / 沟通 / 发布平台？（多选；都不对就 Other，例如 Slack / Linear / 公众号后台 / 小红书后台）"
+- `options`（4 个 + Other）：
+  1. **label**：微信 / 企业微信
+     **description**：国内主流
+  2. **label**：飞书 / 钉钉
+     **description**：国内办公 IM
+  3. **label**：Slack / Discord
+     **description**：海外主流
+  4. **label**：不太用协作工具
+     **description**：单人作战 / 异步为主
 
 ### 关键追问（AskUserQuestion 单选）
 
