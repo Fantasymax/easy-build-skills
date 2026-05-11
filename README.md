@@ -203,22 +203,49 @@ What do you think?
 
 ### Beginner / target audience
 
-Simplest path:
+This skill produces **portable AI config artifacts** (CLAUDE.md / AGENTS.md / .cursorrules / system-prompt.md), so you can use it across any AI coding tool — not just Claude.
+
+**Two-step workflow**:
+
+1. **Run the skill once in Claude Code** to generate your personal AI config
+2. **Take the output to your favorite AI tool** — each tool reads the matching file
+
+#### Step 1: Run the skill (in Claude Code)
+
+**Option A — Plugin install (recommended, modern Claude Code)**:
+
+```
+/plugin marketplace add Fantasymax/easy-build-skills
+/plugin install user-research-for-ai-config@easy-build-skills
+```
+
+Then say: *"I want to define AI principles for myself"* or *"Help me extract weekly report writing into a skill"*.
+
+**Option B — Skill-only install (no plugin system)**:
 
 ```bash
-# 1. clone
 git clone https://github.com/Fantasymax/easy-build-skills.git
-cd easy-build-skills
-
-# 2. Install to Claude Code (recommended)
-cp -r plugin/user-research-for-ai-config ~/.claude/plugins/
-
-# 3. In Claude Code, say one trigger phrase:
-# "I want to define AI principles for myself" or
-# "Help me extract weekly report writing into a skill"
-
-# 4. Follow AI's option tabs through ~15 questions, ~15 min total
+cp -r easy-build-skills/skill/user-research-for-ai-config ~/.claude/skills/
+# Restart Claude Code, then say the trigger phrase above
 ```
+
+Follow AI's option tabs through ~15 questions, ~15 min total.
+
+#### Step 2: Deploy the output to your favorite AI tool
+
+| Your tool | File to use | Where to put it |
+|---|---|---|
+| **Claude Code / Desktop / Cowork** | `CLAUDE.md` | Project root or `~/.claude/CLAUDE.md` |
+| **OpenAI Codex CLI** | `AGENTS.md` | Project root |
+| **Cursor IDE** | `.cursorrules` | Project root |
+| **OpenCode / Aider / Trae / Qoder** | `AGENTS.md` | Project root (most read it) |
+| **GitHub Copilot in VS Code** | `AGENTS.md` (with [`copilot-instructions.md` redirect](https://docs.github.com/copilot)) | `.github/copilot-instructions.md` |
+| **ChatGPT / Gemini / Claude.ai web** | `system-prompt.md` | Paste as system prompt / custom GPT instructions |
+| **Self-hosted LLMs (Llama, Qwen, GLM)** | `system-prompt.md` | Same — paste as system prompt |
+
+The skill auto-detects which platforms you actually use (from C3 tool-stack question) and only generates the relevant 1–3 files — **not all 5**.
+
+**Cross-tool tip**: If you use multiple tools, run the skill once with Mode C ("Both"), then deploy the same principles file across them. Your AI behavior stays consistent.
 
 **Issues**: Run [`INSTALL_TEST.md`](./INSTALL_TEST.md) 8-Phase verification.
 
@@ -252,15 +279,16 @@ Power user only — see SKILL.md §Step 5.5.
 
 ## 🚀 Quick Start (one-paragraph version)
 
-```bash
-# Claude Code (recommended Plugin install)
-git clone https://github.com/Fantasymax/easy-build-skills.git
-cp -r easy-build-skills/plugin/user-research-for-ai-config ~/.claude/plugins/
+**In Claude Code**:
 
-# Then in Claude Code, say: "I want to define AI principles for myself"
+```
+/plugin marketplace add Fantasymax/easy-build-skills
+/plugin install user-research-for-ai-config@easy-build-skills
 ```
 
-Other tools: see [`INSTALL_TEST.md`](./INSTALL_TEST.md) Phase 1.
+Then say: *"I want to define AI principles for myself"*. After ~15 minutes you get CLAUDE.md / AGENTS.md / .cursorrules / system-prompt.md tailored to you — deploy to your favorite AI tool (see [§ How different users should use this](#-how-different-users-should-use-this)).
+
+Other install paths (skill-only, manual cp, etc.): see [`INSTALL_TEST.md`](./INSTALL_TEST.md) Phase 1.
 
 ---
 

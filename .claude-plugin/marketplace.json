@@ -1,0 +1,29 @@
+{
+  "name": "easy-build-skills",
+  "description": "User-research-driven AI config builder: answer ~15 multiple-choice questions to get YOUR AI principles (CLAUDE.md / AGENTS.md / .cursorrules) or a custom skill package, instead of copy-pasting templates.",
+  "owner": {
+    "name": "FantasyMax"
+  },
+  "plugins": [
+    {
+      "name": "user-research-for-ai-config",
+      "source": "./plugin/user-research-for-ai-config",
+      "description": "AI-driven inference engine: asks about user's actual tasks (not technical architecture), infers right form using Anthropic's 5 official shapes, with 6-segment proposal + 5-option feedback loop + AI self-validation.",
+      "version": "1.0.0",
+      "author": {
+        "name": "FantasyMax"
+      },
+      "license": "MIT",
+      "keywords": [
+        "ai",
+        "claude-code",
+        "user-research",
+        "personal-ai",
+        "skills",
+        "agents",
+        "cursor",
+        "codex"
+      ]
+    }
+  ]
+}
