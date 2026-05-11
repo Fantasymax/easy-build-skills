@@ -82,12 +82,16 @@ Make the AI tools you use daily (Claude Code / Cursor / Codex / OpenCode etc.) a
 
 ### Mode B — A "custom skill of your own"
 
-Extract one of your **repetitive specialty tasks** into an AI-executable skill / plugin:
+Build a custom skill / plugin — **two paths work**:
+
+- **Extract** an existing recurring task you already do
+- **Design from scratch** when you don't have a specific task yet — AI helps you discover what skill would help
 
 ```
 Xiaoma (content creator)  →  Editing skill (preserves her "anti-AI-tone" voice)
 Alex (indie developer)    →  PR review skill (with verified patches + no sensitive dirs)
 Lin (financial advisor)   →  Excel→report skill (4-paragraph format + regulation-ASK)
+A blank-slate user        →  AI guides through questions to discover which skill to build
 ```
 
 AI auto-selects 1 of 5 shapes (from simplest "atomic skill" to most complex "composite plugin"). **You don't need to understand technical details.**
@@ -123,7 +127,7 @@ AI auto-selects 1 of 5 shapes (from simplest "atomic skill" to most complex "com
 │     Cross-task collaboration style      │
 │                                         │
 │  ② Build a "custom skill"               │
-│     Extract one repetitive task into AI │
+│     Extract or design from scratch     │
 │                                         │
 │  ③ Both (recommended)                   │
 │     ① first, then ②                     │
@@ -226,7 +230,7 @@ What do you think?
 | Scenario | Coverage | Notes |
 |---|---|---|
 | Solo beginner doing principles | **~90%** | Primary use case, validated by 3-role dogfood |
-| Solo extracting recurring task into skill | **~80%** | 5 shapes cover most common needs |
+| Solo building a custom skill (extract or design from scratch) | **~80%** | 5 shapes cover most common needs |
 | Complex multi-person team principles | **~50%** | Not the design goal; can serve as starting point but needs extension |
 | Enterprise / multi-role RBAC skills | **~30%** | Beyond scope; recommend building your own |
 | Real-time data streams / large-scale distributed | **0%** | Completely out of scope |
