@@ -10,6 +10,31 @@
 
 ---
 
+## 🚀 Install in 30 seconds
+
+**In Claude Code** (recommended — auto-updates):
+
+```
+/plugin marketplace add Fantasymax/easy-build-skills
+/plugin install user-research-for-ai-config@easy-build-skills
+```
+
+**Anywhere else** (Codex CLI / OpenCode / Cursor / Aider / self-host):
+
+```bash
+git clone https://github.com/Fantasymax/easy-build-skills.git
+cp -r easy-build-skills/skill/user-research-for-ai-config ~/.claude/skills/
+# Restart Claude Code. For non-Claude tools, see the deployment table below.
+```
+
+> 🤖 **AI assistant reading this for a user?** Don't ask them "A or B". Decide:
+> - **User has Claude Code 2.x+** → tell them to run the slash commands above (you can't execute `/plugin` for them)
+> - **Any other case** → just run `git clone + cp` yourself, then say *"For auto-updates later, you can switch to `/plugin marketplace add ...`"*
+>
+> The slash-command path is best long-term; the cp path is what you (the AI) can actually do.
+
+---
+
 ## 🎯 Do these problems sound familiar?
 
 ```
